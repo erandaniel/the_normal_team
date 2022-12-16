@@ -1,21 +1,52 @@
 from random import randrange
+from math import pow
+def lcm(a,b):
+    return ((a*b)/gcd(a,b))
 
+def prime_fators(n):
+    result = []
+    i = 2
+    while i * i <= n:
+        while n % i == 0:
+            if (is_prime(i)):
+                result.append(i)
+            n //= i
+            i += 1
+    print(result)
+    return result
+
+def gcd(a,b):
+    if (a == 0):
+        return b
+    if (b == 0):
+        return a
+
+    # base case
+    if (a == b):
+        return a
+
+    # a is greater
+    if (a > b):
+        return gcd(a%b, b)
+    return gcd(a, b%a)
+
+"""
+Returns the extended gcd of a and b
+
+Parameters
+----------
+a : Input data.
+b : Input data.
+Returns
+-------
+(d, x, y): d = gcd(a,b) = a*x + b*y
+"""
 def extended_gcd(a,b):
-    """
-    Returns the extended gcd of a and b
+    if b == 0:
+        return a, 1, 0
+    gcd, x, y = extended_gcd(b, a % b)
+    return gcd, y, x - y * (a // b)
 
-    Parameters
-    ----------
-    a : Input data.
-    b : Input data.
-    Returns
-    -------
-    (d, x, y): d = gcd(a,b) = a*x + b*y
-    """
-
-
-
-def modular_inverse(a,n):
     """
     Returns the inverse of a modulo n if one exists
 
@@ -28,7 +59,16 @@ def modular_inverse(a,n):
     -------
     x: such that (a*x % n) == 1 and 0 <= x < n if one exists, else None
     """
-
+    """
+    if(a%n == 1):
+        return 1
+    
+    
+    """
+def modular_inverse(a,n):
+    if gcd(a,n)==1:
+        return 0
+    return pow(a, n-2, n)
 
 def modular_exponent(a, d, n):
     """
@@ -44,6 +84,17 @@ def modular_exponent(a, d, n):
     -------
     b: such that b == (a**d) % n
     """
+    return pow(a, d, n)
+    
+    # sum = 1
+    # d = bin(d)
+    # d = d[::-1]
+    # for i in range(len(d)):
+    #     if d[i] == 'b': #0b010101 ->10010100b b is the end
+    #         return sum % n
+    #     if d[i] == '1':
+    #         sum *= (a ** (2**i) % n)
+
 
 def miller_rabin(n):
     """
